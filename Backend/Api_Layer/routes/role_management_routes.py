@@ -103,3 +103,11 @@ def remove_permission_group_from_role(
     current_user: dict = Depends(admin_required)
 ):
     return service.remove_permission_group_from_role(role_id, group_id)
+
+@router.get("/{role_id}/available-groups")
+def get_unassigned_permission_groups_for_role(
+    role_id: int,
+    service: RoleService = Depends(get_role_service),
+    current_user: dict = Depends(admin_required)
+):
+    return service.get_unassigned_permission_groups(role_id)

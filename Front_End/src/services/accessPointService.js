@@ -22,7 +22,9 @@ axiosInstance.interceptors.request.use(
 
 const ACCESS_POINT_URL = '/admin/access-points/';
 
-// Access Point APIs
+const UNMAPPED_ACCESS_POINTS_URL = `${ACCESS_POINT_URL}unmapped-access-points`;
+
+export const listAccessPointsumapped = () => axiosInstance.get(UNMAPPED_ACCESS_POINTS_URL);
 export const listAccessPoints = () => axiosInstance.get(ACCESS_POINT_URL);
 export const getAccessPoint = (id) => axiosInstance.get(`${ACCESS_POINT_URL}${id}`);
 export const createAccessPoint = (data) => axiosInstance.post(ACCESS_POINT_URL, data);
@@ -31,3 +33,14 @@ export const deleteAccessPoint = (id) => axiosInstance.delete(`${ACCESS_POINT_UR
 
 // Module List API for dropdown
 export const listModules = () => axiosInstance.get(`${ACCESS_POINT_URL}modules`);
+
+// Get unmapped permissions (permissions not assigned to any access point)
+export const getUnmappedPermissions = () => axiosInstance.get('/admin/permissions/');
+
+
+// Assign permission to access point
+export const assignPermissionToAccessPoint = (accessPointId, permissionId) => 
+  axiosInstance.post(`${ACCESS_POINT_URL}${accessPointId}/map-permission/${permissionId}`);
+
+// console.log(`${ACCESS_POINT_URL}${accessPointId}/map-permission/${permissionId}`);
+

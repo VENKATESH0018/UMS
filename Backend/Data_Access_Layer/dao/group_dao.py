@@ -133,8 +133,8 @@ class PermissionGroupDAO:
             .filter(Permission_Group_Mapping.group_id == group_id)
             .subquery()
         )
-
+ 
         query = self.db.query(Permissions).filter(Permissions.permission_id.notin_(subquery))
-
+ 
         return query.all()
 

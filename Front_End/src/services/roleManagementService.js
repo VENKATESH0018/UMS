@@ -30,7 +30,8 @@ export const deleteRole = (id) => axiosInstance.delete(`${ROLE_URL}/${id}`);
 // Permission Group Management APIs
 export const getPermissionsByRole = (roleId) => axiosInstance.get(`${ROLE_URL}/${roleId}/permissions`);
 export const getPermissionGroupsByRole = (roleId) => axiosInstance.get(`${ROLE_URL}/${roleId}/groups`);
-export const getAvailablePermissionGroupsForRole = (roleId) => axiosInstance.get(`${ROLE_URL}/${roleId}/groups/available`);
+export const getAvailablePermissionGroupsForRole = (roleId) => axiosInstance.get(`${ROLE_URL}/${roleId}/available-groups`);
+
 export const updatePermissionGroupsForRole = (roleId, groupIds) => axiosInstance.put(`${ROLE_URL}/${roleId}/groups`, { group_ids: groupIds });
 export const addPermissionGroupsToRole = (roleId, groupIds) => axiosInstance.post(`${ROLE_URL}/${roleId}/groups`, { group_ids: groupIds });
 export const removePermissionGroupFromRole = (roleId, groupId) => axiosInstance.delete(`${ROLE_URL}/${roleId}/groups/${groupId}`);

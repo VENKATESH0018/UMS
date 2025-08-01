@@ -167,4 +167,3 @@ class AccessPointDAO:
             .filter(~Permissions.access_mappings.any())
             .all()
         )
-

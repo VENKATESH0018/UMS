@@ -80,14 +80,35 @@ def remove_permission_group_from_role(db: Session, role_id: int, group_id: int):
     db.commit()
     return {"message": "Permission group removed"}
 
+# below code delete excisting groups and add new permission groups to role
+# def update_permission_groups_for_role(db: Session, role_id: int, group_ids: list[int]):
+#     # Delete existing groups
+#     db.query(models.Role_Permission_Group).filter_by(role_id=role_id).delete()
+#     # Add new ones
+#     for gid in group_ids:
+#         db.add(models.Role_Permission_Group(role_id=role_id, group_id=gid))
+#     db.commit()
+#     return {"message": "Permission groups updated"}
+# below code add permission groups to excisting groups for a role
 def update_permission_groups_for_role(db: Session, role_id: int, group_ids: list[int]):
-    # Delete existing groups
-    db.query(models.Role_Permission_Group).filter_by(role_id=role_id).delete()
-    # Add new ones
-    for gid in group_ids:
-        db.add(models.Role_Permission_Group(role_id=role_id, group_id=gid))
+    role = db.query(models.Role).filter_by(role_id=role_id).first()
+    if not role:
+        raise Exception("Role not found")
+
+    # Use the correct attribute: role.permission_groups
+    existing_group_ids = {group.group_id for group in role.permission_groups}
+
+    new_group_ids = set(group_ids) - existing_group_ids
+    if new_group_ids:
+        new_groups = db.query(models.Permission_Group).filter(
+            models.Permission_Group.group_id.in_(new_group_ids)
+        ).all()
+        role.permission_groups.extend(new_groups)
+
     db.commit()
-    return {"message": "Permission groups updated"}
+    return {"message": "Permission groups updated successfully."}
+
+
 
 def get_permission_groups_by_role(db: Session, role_id: int):
     return db.query(models.Permission_Group)\
@@ -95,4 +116,15 @@ def get_permission_groups_by_role(db: Session, role_id: int):
                    models.Permission_Group.group_id == models.Role_Permission_Group.group_id)\
              .filter(models.Role_Permission_Group.role_id == role_id).all()
 
+def get_unassigned_permission_groups(db: Session, role_id: int):
+    # Subquery: get group_ids already assigned to the role
+    assigned_group_ids = db.query(models.Role_Permission_Group.group_id)\
+                           .filter_by(role_id=role_id).subquery()
+ 
+    # Get all permission groups NOT in the assigned list
+    unassigned_groups = db.query(models.Permission_Group)\
+                          .filter(~models.Permission_Group.group_id.in_(assigned_group_ids))\
+                          .all()
+ 
+    return unassigned_groups
 

@@ -16,7 +16,6 @@ class AccessPointOut(BaseModel):
     permission_code: Optional[str] = None  # flattening from relationship
     permission_id: Optional[int]
 
-
     class Config:
         from_attributes = True
 
@@ -33,5 +32,3 @@ class CreateAPResponse(BaseModel):
 
 class PermissionMappingIn(BaseModel):
     permission_id: int
-
-    
