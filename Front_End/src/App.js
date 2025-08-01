@@ -1,7 +1,13 @@
 import { Routes, Route } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+ 
+// in App.jsx or index.jsx
+
 
 // Auth Pages
 import Login from "./pages/auth/Login";
+import LoginCallback from "./pages/auth/LoginCallback";
 import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 
@@ -32,6 +38,7 @@ import AccessPointList from '../src/pages/admin/accessPointManagement/AccessPoin
 import AccessPointForm from '../src/pages/admin/accessPointManagement/AccessPointForm';
 import AccessPointDetails from '../src/pages/admin/accessPointManagement/AccessPointDetails';
 import AccessPointEdit from '../src/pages/admin/accessPointManagement/AccessPointEdit';
+import AccessPointMapping from './pages/admin/accessPointManagement/AccessPointMapping';
 
 // Layouts & Routes
 import Layout from "./components/Layout";
@@ -40,7 +47,11 @@ import AdminRoute from "./routes/AdminRoute";
 
 export default function App() {
   return (
+    <>
+    <ToastContainer position="top-center" autoClose={3000} />
+
     <Routes>
+      
       {/* Public Routes */}
       <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />
@@ -52,6 +63,7 @@ export default function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/edit" element={<EditProfile />} />
         <Route path="/edit-user/:user_id" element={<EditUserHr />} />
+        <Route path="/login/callback" element={<LoginCallback />} />
       </Route>
 
       {/* User Management and Admin Sections (with main layout) */}
@@ -68,12 +80,15 @@ export default function App() {
           <Route path="groups" element={<PermissionGroupManagement />} />
           <Route path="groups/:groupId" element={<GroupDetails />} />
           {/* <Route path="access-points" element={<AccessPointManagement />} /> */}
-          <Route path="access-points" element={<AccessPointList />} />
+          <Route path="access-points" element={<AccessPointManagement />} />
           <Route path="access-points/create" element={<AccessPointForm />} />
           <Route path="access-points/:access_id" element={<AccessPointDetails />} />
           <Route path="access-points/edit/:access_id" element={<AccessPointEdit />} />
         </Route>
+        <Route path="/admin/access-point-mapping" element={<AccessPointMapping />} />
       </Route>
     </Routes>
+    </>
+    
   );
 }

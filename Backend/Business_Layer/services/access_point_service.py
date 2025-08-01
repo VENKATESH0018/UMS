@@ -116,8 +116,9 @@ class AccessPointService:
                 method=ap.method,
                 module=ap.module,
                 is_public=ap.is_public,
-                permission_code = None,
-                permission_id = None
+                permission_code= None,
+                permission_id= None
+                
             )
             for ap in all_aps if not ap.permission_mappings
         ]
@@ -132,5 +133,4 @@ class AccessPointService:
             }
             for perm in permissions
         ]
-
 

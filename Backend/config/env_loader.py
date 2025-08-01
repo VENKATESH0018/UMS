@@ -9,3 +9,4 @@ def get_env_var(key: str) -> str:
     if value is None:
         raise EnvironmentError(f"Environment variable {key} not found")
     return value
+

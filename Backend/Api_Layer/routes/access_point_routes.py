@@ -114,7 +114,3 @@ def map_permission_new(
     service: AccessPointService = Depends(get_access_point_service)
 ):
     return service.map_permission(access_id, data.permission_id)
-
-
-
-

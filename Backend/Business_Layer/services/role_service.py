@@ -45,3 +45,6 @@ class RoleService:
 
     def get_permission_groups_by_role(self, role_id: int):
         return role_dao.get_permission_groups_by_role(self.db, role_id)
+    
+    def get_unassigned_permission_groups(self, role_id: int):
+        return role_dao.get_unassigned_permission_groups(self.db, role_id)
